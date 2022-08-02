@@ -1,10 +1,19 @@
 #pragma once
 #include <array>
 #include <chrono>
+#include <vector>
+#include <map>
+using namespace std;
 using namespace std::chrono;
 int* BubbleSort(int ArrayToSort[], int SizeOfArray);
 void SelectionSort(int ArrayToSort[]);
-
+struct Coordinates {
+	string x;
+	string y;
+	int cost;
+};
+auto AStar(Coordinates start, Coordinates goal,map<string,Coordinates > data);
+auto ReconstructPath(map<string, Coordinates> cameFrom, string current);
 #define ARRAY_SIZE  10000
 int Data[ARRAY_SIZE];
 
@@ -60,6 +69,40 @@ int BinarySearch(int ArrayToSearch[], int SearchItem);
 		}
 	 
 	 }
+ }
+
+
+
+ inline auto AStar(Coordinates start, Coordinates goal,map<string, Coordinates> data)
+ {
+	 vector<Coordinates> openList;
+	 vector<Coordinates> closedList;
+	 openList.push_back(start);
+	 while (openList.size() > 0)
+	 {
+		 Coordinates current = openList[0];
+		 int currentIndex = 0;
+		 for (int index = 0; index < openList.size(); ++index) {
+			 if (openList[index].cost < current.cost) {
+				 current = openList[index];
+				 currentIndex = index;
+			 }
+		 }
+
+
+	 }
+
+ }
+
+ inline auto ReconstructPath(map<string, Coordinates> cameFrom, string current)
+ {
+	 int totalPath = 0;
+	 std::map<string,Coordinates>::iterator isPresent = cameFrom.find(current);
+	 while (isPresent != cameFrom.end()) {
+		 cameFrom.erase(isPresent);
+		 totalPath = totalPath + 1;
+	 }
+	 return totalPath;
  }
 
  void FillArray(int ArrayToFill[])
