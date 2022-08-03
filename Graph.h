@@ -27,23 +27,19 @@ public:
 			AdjacentList[edge.GetSource()].push_back(node);
 		}
 	}
-	//~ Graph();
-	//void AddEdge(Node Source, Node Target, int Cost);
-	//void AddNode(Node NodeItem);
-	//void AddNode(Node NodeItem, std::vector<Node> Edges);
-	//Node GetNode(Node NodeItem);
-	//Node GetNodeItem(Node TargetItem);
+
 	void SetAdjacentList(std::map<std::string, std::vector<Node>> data) {
 		AdjacentList = data;
 	}
 	std::string DepthFirstTraversal();
 	std::string BreathFirstTraversal();
-	int heuristic(Node source, Node destination);
-	void AStar(std::string start, std::string goal);
+	int Heuristic(Node source, Node destination);
+	void AStar(Node startNode, Node goalNode);
 		// The set of discovere)
 	std::map<std::string, std::vector<Node>> GetAdjacentList() {
 		return AdjacentList;
 	}
+	vector<std::string> ReconstructPath(map<string, Coordinates> cameFrom, string current);
 private:
 	std::map<std::string, std::vector<Node>> AdjacentList;
 };

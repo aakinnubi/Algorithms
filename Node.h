@@ -3,9 +3,7 @@
 #include "Algorithm.h"
 using namespace std;
 struct Coordinates {
-	int x;
-	int y;
-	int cost;
+	int x; int y;
 };
 class Node {
 private:
@@ -13,11 +11,8 @@ private:
 	Coordinates Coordinate;
 	int Cost;
 public:
-	Node(string name, Coordinates coords, int cost) :Name(name),
+	Node(string name,  int cost = 0,const Coordinates &coords  = { 0,0 }) :Name(name),
 		Coordinate (coords),Cost(cost) {
-
-	}
-	Node(string name, int cost) :Name(name), Cost(cost) {
 
 	}
 	void SetName(string Name);
