@@ -9,6 +9,18 @@ using namespace std;
 using namespace std::chrono;
 int* BubbleSort(int ArrayToSort[], int SizeOfArray);
 void SelectionSort(int ArrayToSort[]);
+
+
+const int n = 60; // horizontal size of the map
+const int m = 60; // vertical size size of the map
+static int _map[n][m];
+static int closed_nodes_map[n][m]; // map of closed (tried-out) nodes
+static int open_nodes_map[n][m]; // map of open (not-yet-tried) nodes
+static int dir_map[n][m]; // map of directions
+const int dir = 8; // number of possible directions to go at any position
+static int dx[dir] = { 1, 1, 0, -1, -1, -1, 0, 1 };
+static int dy[dir] = { 0, 1, 1, 1, 0, -1, -1, -1 };
+
 struct Coordinates {
 	string x;
 	string y;
@@ -30,7 +42,10 @@ public:
     {
         xPos = xp; yPos = yp; level = d; priority = p;
     }
-
+    bool operator<(const NCoordinate& rhs) const noexcept
+    {
+        return this->xPos < rhs.xPos;
+    }
     int getxPos() const { return xPos; }
     int getyPos() const { return yPos; }
     int getLevel() const { return level; }
@@ -58,15 +73,7 @@ public:
         return(d);
     }
 };
-const int n = 60; // horizontal size of the map
-const int m = 60; // vertical size size of the map
-static int _map[n][m];
-static int closed_nodes_map[n][m]; // map of closed (tried-out) nodes
-static int open_nodes_map[n][m]; // map of open (not-yet-tried) nodes
-static int dir_map[n][m]; // map of directions
-const int dir = 8; // number of possible directions to go at any position
-static int dx[dir] = { 1, 1, 0, -1, -1, -1, 0, 1 };
-static int dy[dir] = { 0, 1, 1, 1, 0, -1, -1, -1 };
+
 
 auto AStar(Coordinates start, Coordinates goal,map<string,Coordinates > data);
 auto ReconstructPath(map<string, Coordinates> cameFrom, string current);
@@ -133,21 +140,36 @@ int BinarySearch(int ArrayToSearch[], int SearchItem);
 
  inline auto AStar(Coordinates start, Coordinates goal,map<string, Coordinates> data)
  {
-	 vector<Coordinates> openList;
-	 vector<Coordinates> closedList;
-	 openList.push_back(start);
-	 while (openList.size() > 0)
+	 vector<vector<Coordinates>> openList;
+	 vector<vector<Coordinates>> closedList;
+     vector<Coordinates> startVector;
+     startVector.push_back(start);
+	 openList.push_back(startVector);
+     map<string, Coordinates>  openSet;
+	 while (openSet.size() > 0)
 	 {
-		 Coordinates current = openList[0];
+         vector<Coordinates> current = openList[0];
 		 int currentIndex = 0;
 		 for (int index = 0; index < openList.size(); ++index) {
-			 if (openList[index].cost < current.cost) {
+			 if (openList[index][index].cost < current[index].cost) {
 				 current = openList[index];
 				 currentIndex = index;
 			 }
 		 }
-
-
+         auto it = openSet.begin();
+         std::advance(it, currentIndex);
+         openSet.erase(it);
+         for (Coordinates neighbor : current)
+         {
+         //tentative_gScore: = gScore[current] + d(current, neighbor)
+         //    if tentative_gScore < gScore[neighbor]
+         //        // This path to neighbor is better than any previous one. Record it!
+         //        cameFrom[neighbor] : = current
+         //        gScore[neighbor] : = tentative_gScore
+         //        fScore[neighbor] : = tentative_gScore + h(neighbor)
+         //        if neighbor not in openSet
+         //            openSet.add(neighbor);
+         }
 	 }
 
  }
