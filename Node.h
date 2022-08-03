@@ -2,21 +2,25 @@
 #include <string>
 #include "Algorithm.h"
 using namespace std;
-
+struct Coordinates {
+	int x;
+	int y;
+	int cost;
+};
 class Node {
 private:
-	char* Name;
+	string Name;
 	Coordinates Coordinate;
 	int Cost;
 public:
-	Node(char* name, Coordinates coords, int cost) :Name(name), 
+	Node(string name, Coordinates coords, int cost) :Name(name),
 		Coordinate (coords),Cost(cost) {
 
 	}
-	Node(char* name, int cost) :Name(name), Cost(cost) {
+	Node(string name, int cost) :Name(name), Cost(cost) {
 
 	}
-	void SetName(char* Name);
+	void SetName(string Name);
 	void SetCoordinate(Coordinates Coordinate);
 	Coordinates GetCoordinate();
 	string GetName();

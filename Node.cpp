@@ -1,6 +1,6 @@
 #include "Node.h"
 
-void Node::SetName(char* Name)
+void Node::SetName(string Name)
 {
 	this->Name = Name;
 }
@@ -15,9 +15,9 @@ Coordinates Node::GetCoordinate()
 	return this->Coordinate;
 }
 
-string Node::GetName()
+std::string Node::GetName()
 {
-	return Node::Name;
+	return this->Name;
 }
 
 void Node::SetCost(int cost)

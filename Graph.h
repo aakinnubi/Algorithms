@@ -3,6 +3,7 @@
 #include <string>
 #include "Node.h"
 #include "Edge.h"
+#include <vector>
 //for (int i = 0; i < edges.size(); ++i) {
 //	char *key = edges[i].GetSource();
 //	if (*key != 0) {
@@ -32,13 +33,17 @@ public:
 	//void AddNode(Node NodeItem, std::vector<Node> Edges);
 	//Node GetNode(Node NodeItem);
 	//Node GetNodeItem(Node TargetItem);
-	void SetAdjacentList(std::map<char*, std::vector<Node>> data) {
+	void SetAdjacentList(std::map<std::string, std::vector<Node>> data) {
 		AdjacentList = data;
 	}
-
-	std::map<char*, std::vector<Node>> GetAdjacentList() {
+	std::string DepthFirstTraversal();
+	std::string BreathFirstTraversal();
+	int heuristic(Node source, Node destination);
+	void AStar(std::string start, std::string goal);
+		// The set of discovere)
+	std::map<std::string, std::vector<Node>> GetAdjacentList() {
 		return AdjacentList;
 	}
 private:
-	std::map<char*, std::vector<Node>> AdjacentList;
+	std::map<std::string, std::vector<Node>> AdjacentList;
 };

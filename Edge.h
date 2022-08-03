@@ -1,17 +1,21 @@
 #pragma once
+#include <string>
 class Edge {
-    Edge(char *src, char *dest, int cost) : Source(src), Destination(dest), Cost(cost) {
-
-    }
+   
 public:
-    void SetSource(char *src);
-    void SetDestination(char *dest);
+    Edge(std::string src, std::string dest, int cost) : Source(src), Destination(dest), Cost(cost) {
+        this->Source = src;
+        this->Destination = dest;
+        this->Cost = cost;
+    }
+    void SetSource(std::string src);
+    void SetDestination(std::string dest);
     void SetCost(int cost);
     int GetCost();
-    char* GetSource();
-    char* GetDestination();
+    std::string GetSource();
+    std::string GetDestination();
 private:
-    char *Source;
-    char *Destination;
+    std::string Source;
+    std::string Destination;
     int Cost;
 };

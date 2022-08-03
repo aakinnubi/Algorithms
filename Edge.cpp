@@ -1,11 +1,11 @@
 #include "Edge.h"
 
-void Edge::SetSource(char *src)
+void Edge::SetSource(std::string src)
 {
 	this->Source = src;
 }
 
-void Edge::SetDestination(char *dest)
+void Edge::SetDestination(std::string dest)
 {
 	this->Destination = dest;
 }
@@ -20,12 +20,12 @@ int Edge::GetCost()
 	return this->Cost;
 }
 
-char* Edge::GetSource()
+std::string Edge::GetSource()
 {
 	return this->Source;
 }
 
-char* Edge::GetDestination()
+std::string Edge::GetDestination()
 {
 	return this->Destination;
 }
