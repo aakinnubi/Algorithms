@@ -28,7 +28,7 @@ int main()
     auto test = graph.GetAdjacentList();
     auto testt = test;
     Node startNode = { "a" };
-    Node endNode = { "b" };
+    Node endNode = { "d" };
     graph.AStar(startNode, endNode);
 }
 

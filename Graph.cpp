@@ -3,6 +3,7 @@
 
 string Graph::DepthFirstTraversal()
 {
+	//
 	return string();
 }
 
@@ -28,7 +29,7 @@ void Graph::AStar(Node startNode, Node goalNode)
 			int newCost = costSoFar[current.first] + next.GetCost();
 			auto it = costSoFar.find(next.GetName());
 			// || newCost < it->second
-			if (it == costSoFar.end()) {
+			if (it == costSoFar.end() || newCost < it->second) {
 				costSoFar[next.GetName()] = newCost;
 				//TODO: I need to also pass the current node coordinate hence my data structure has to change
 				int priority = newCost + Heuristic(goalNode, next);

@@ -4,20 +4,6 @@
 #include "Node.h"
 #include "Edge.h"
 #include <vector>
-//for (int i = 0; i < edges.size(); ++i) {
-//	char *key = edges[i].GetSource();
-//	if (*key != 0) {
-//		auto  _iterator = AdjacentList.find(key);
-//		auto 
-//		std::vector<Node> items = _iterator->second;
-//		if (!items.empty()) {
-//			items.push_back()
-//		}
-//		items.push_back()
-//	}
-//
-//	/*AdjacentList.insert(key, )*/
-//}
 
 class Graph {
 public:
