@@ -4,7 +4,7 @@
 #include "Node.h"
 #include "Edge.h"
 #include <vector>
-
+using namespace std;
 class Graph {
 public:
 	Graph(vector<Edge> edges) {
@@ -14,18 +14,25 @@ public:
 		}
 	}
 
-	void SetAdjacentList(std::map<std::string, std::vector<Node>> data) {
+	void SetAdjacentList(map<string, vector<Node>> data) {
 		AdjacentList = data;
 	}
-	std::string DepthFirstTraversal();
-	std::string BreathFirstTraversal();
-	int Heuristic(Node source, Node destination);
-	void AStar(Node startNode, Node goalNode);
-		// The set of discovere)
-	std::map<std::string, std::vector<Node>> GetAdjacentList() {
+	void SetTraversePath(vector<string> reconstruct) {
+		traversePath = reconstruct;
+	}
+	vector<string> GetTraversePath() {
+		return traversePath;
+	}
+	map<string, vector<Node>> GetAdjacentList() {
 		return AdjacentList;
 	}
-	vector<std::string> ReconstructPath(map<string, Coordinates> cameFrom, string current);
+	string DepthFirstTraversal();
+	string BreathFirstTraversal();
+	int Heuristic(Node source, Node destination);
+	void AStar(Node startNode, Node goalNode);
+	vector<string> ReconstructPath(map<string, Coordinates> cameFrom, string current);
+	vector<string> ReconstructPath(priority_queue<pair<string, string>> cameFrom, string current);
 private:
-	std::map<std::string, std::vector<Node>> AdjacentList;
+	map<string, vector<Node>> AdjacentList;
+	vector<string> traversePath;
 };

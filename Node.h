@@ -21,9 +21,5 @@ public:
 	string GetName();
 	void SetCost(int cost);
 	int GetCost();
-	/*bool operator<(const Node& rhs) const noexcept
-	{
-		return this->Name < rhs.Name;
-	}*/
 };
 

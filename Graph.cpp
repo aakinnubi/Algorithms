@@ -9,32 +9,33 @@ string Graph::DepthFirstTraversal()
 
 void Graph::AStar(Node startNode, Node goalNode)
 {
-	std::string start = startNode.GetName();
-	std::string goal = goalNode.GetName();
-	std::map<std::string, std::vector<Node>> graph = GetAdjacentList();
-	priority_queue<pair<std::string,int>> frontier = {};
-	frontier.push(make_pair(start,0));
-	map<std::string, std::string> cameFrom;
-	map<std::string, int> costSoFar;
-	cameFrom[start];
+	string start = startNode.GetName();
+	string goal = goalNode.GetName();
+	map<string, vector<Node>> graph = GetAdjacentList();
+	priority_queue<pair<string,int>> pathTraveled = {};
+	pathTraveled.push(make_pair(start,0));
+	priority_queue<pair<string, string>> cameFrom = {};
+	map<string, int> costSoFar;
+	cameFrom.push(make_pair(start,""));
 	costSoFar[start] = 0;
-	while (!frontier.empty()) {
-		pair<std::string, int> current = frontier.top();
-		frontier.pop();
+	while (!pathTraveled.empty()) {
+		pair<string, int> current = pathTraveled.top();
+		pathTraveled.pop();
 		if (current.first == goal) {
+			auto path = this->ReconstructPath(cameFrom, current.first);
+			Graph::SetTraversePath(path);
 			break;
 		}
 		vector<Node> neighbours = graph[current.first];
 		for (Node next : neighbours) {
 			int newCost = costSoFar[current.first] + next.GetCost();
 			auto it = costSoFar.find(next.GetName());
-			// || newCost < it->second
 			if (it == costSoFar.end() || newCost < it->second) {
 				costSoFar[next.GetName()] = newCost;
-				//TODO: I need to also pass the current node coordinate hence my data structure has to change
 				int priority = newCost + Heuristic(goalNode, next);
-				frontier.push(make_pair(next.GetName(),  priority));
-				cameFrom[next.GetName()] = current.first;
+				pathTraveled.push(make_pair(next.GetName(),  priority));
+				cameFrom.push(make_pair(next.GetName(), current.first));
+				//cameFrom[next.GetName()] = current.first;
 			}
 		}
 	}
@@ -46,13 +47,25 @@ int Graph::Heuristic(Node source, Node destination)
 	int yDifference = source.GetCoordinate().y - destination.GetCoordinate().y;
 	return abs(xDifference) + abs(yDifference);
 }
-vector<string> ReconstructPath(map<string, Coordinates> cameFrom, string current)
+vector<string> Graph::ReconstructPath(map<string, Coordinates> cameFrom, string current)
 {
 	vector<string> totalPath ={};
-	std::map<string, Coordinates>::iterator isPresent = cameFrom.find(current);
+	map<string, Coordinates>::iterator isPresent = cameFrom.find(current);
 	while (isPresent != cameFrom.end()) {
 		cameFrom.erase(isPresent);
 		totalPath.push_back(isPresent->first);
+	}
+	return totalPath;
+}
+
+vector<string> Graph::ReconstructPath(priority_queue<pair<string, string>> cameFrom, string current)
+{
+	vector<string> totalPath = {};
+	while (!cameFrom.empty()) {
+		auto item = cameFrom.top();
+		string key = item.first;
+		totalPath.push_back(key);
+		cameFrom.pop();
 	}
 	return totalPath;
 }
