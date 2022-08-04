@@ -4,6 +4,7 @@
 #include "Node.h"
 #include "Edge.h"
 #include <vector>
+#include <iostream>
 using namespace std;
 class Graph {
 public:
@@ -13,15 +14,18 @@ public:
 			AdjacentList[edge.GetSource()].push_back(node);
 		}
 	}
+	~Graph() {
+		cout << "Destructor called " << endl;
+	}
 
 	void SetAdjacentList(map<string, vector<Node>> data) {
 		AdjacentList = data;
 	}
 	void SetTraversePath(vector<string> reconstruct) {
-		traversePath = reconstruct;
+		this->traversePath = reconstruct;
 	}
 	void SetTraverseCost(int costSoFar) {
-		traversePathCost = costSoFar;
+		this->traversePathCost = costSoFar;
 	}
 	vector<string> GetTraversePath() {
 		return traversePath;
@@ -32,12 +36,15 @@ public:
 	map<string, vector<Node>> GetAdjacentList() {
 		return AdjacentList;
 	}
-	string DepthFirstTraversal();
-	string BreathFirstTraversal();
+	void DepthFirstTraversal(Node startNode, Node goalNode);
+	void BreathFirstTraversal(Node startNode, Node goalNode);
+	void BreathFirstTraversal(Node startNode);
+	void BreathFirstTraversal();
 	int Heuristic(Node source, Node destination);
 	void AStar(Node startNode, Node goalNode);
 	vector<string> ReconstructPath(map<string, Coordinates> cameFrom, string current);
-	vector<string> ReconstructPath(priority_queue<pair<string, string>> cameFrom, string current);
+	vector<string> ReconstructPath(priority_queue<pair<string, string>> cameFrom);
+	vector<string> ReconstructPath(priority_queue<string> cameFrom);
 	/*int TotalCostForTravel(map<string, int> costSoFar);*/
 private:
 	map<string, vector<Node>> AdjacentList;

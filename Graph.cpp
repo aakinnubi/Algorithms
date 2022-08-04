@@ -1,12 +1,83 @@
 #include "Graph.h"
 #include <queue>
+#include <set>
+#include <numeric>
 int TotalCostForTravel(map<string, int> costSoFar);
-string Graph::DepthFirstTraversal()
+void Graph::DepthFirstTraversal(Node startNode, Node goalNode)
 {
 	//
-	return string();
-}
+	string start = startNode.GetName();
+	string goal = goalNode.GetName();
+	map<string, vector<Node>> graph = GetAdjacentList();
 
+}
+void Graph::BreathFirstTraversal(Node startNode, Node goalNode) {
+	string start = startNode.GetName();
+	string goal = goalNode.GetName();
+	map<string, vector<Node>> graph = GetAdjacentList();
+	priority_queue<string> pathTraveled = {};
+	pathTraveled.push(start);
+	set<string> visited;
+	visited.insert(start);
+	vector<int> costSoFar = { startNode.GetCost() };
+	while (!pathTraveled.empty()) {
+		string current = pathTraveled.top();
+		pathTraveled.pop();
+		if (current == goal) {
+			vector<string> traversepaths;
+			traversepaths.assign(visited.begin(), visited.end());
+			Graph::SetTraversePath(traversepaths);
+
+			int totalCost = accumulate(costSoFar.begin(), costSoFar.end(), 0);
+			Graph::SetTraverseCost(totalCost);
+			break;
+		}
+		vector<Node> neighbours = graph[current];
+		for (Node next : neighbours) {
+			auto currentIterator = visited.find(next.GetName());
+			if (currentIterator == visited.end()) {
+				pathTraveled.push(next.GetName());
+				visited.insert(next.GetName());
+				costSoFar.push_back(next.GetCost());
+
+			}
+		}
+	}
+}
+void Graph::BreathFirstTraversal(Node startNode) {
+	string start = startNode.GetName();
+	map<string, vector<Node>> graph = GetAdjacentList();
+	priority_queue<string> pathTraveled;
+	pathTraveled.push(start);
+	set<string> visited;
+	visited.insert(start);
+	vector<int> costSoFar = { startNode.GetCost() };
+	while (!pathTraveled.empty()) {
+		string current = pathTraveled.top();
+		pathTraveled.pop();
+		vector<Node> neighbours = graph[current];
+		for (Node next : neighbours) {
+			auto currentIterator = visited.find(next.GetName());
+			if (currentIterator == visited.end()) {
+				pathTraveled.push(next.GetName());
+				visited.insert(next.GetName());
+				costSoFar.push_back(next.GetCost());
+			}
+		}
+	}
+	vector<string> traversepaths;
+	traversepaths.assign(visited.begin(), visited.end());
+	Graph::SetTraversePath(traversepaths);
+	int totalCost = accumulate(costSoFar.begin(), costSoFar.end(), 0);
+	Graph::SetTraverseCost(totalCost);
+}
+void Graph::BreathFirstTraversal() {
+	map<string, vector<Node>> graph = GetAdjacentList();
+	priority_queue<string> pathTraveled = {};
+	set<string> visited;
+	//string start = startNode.GetName();
+	//string goal = goalNode.GetName();
+}
 void Graph::AStar(Node startNode, Node goalNode)
 {
 	string start = startNode.GetName();
@@ -22,7 +93,7 @@ void Graph::AStar(Node startNode, Node goalNode)
 		pair<string, int> current = pathTraveled.top();
 		pathTraveled.pop();
 		if (current.first == goal) {
-			auto path = this->ReconstructPath(cameFrom, current.first);
+			auto path = this->ReconstructPath(cameFrom);
 			Graph::SetTraversePath(path);
 			int totalCost = TotalCostForTravel(costSoFar);
 			Graph::SetTraverseCost(totalCost);
@@ -60,7 +131,7 @@ vector<string> Graph::ReconstructPath(map<string, Coordinates> cameFrom, string 
 	return totalPath;
 }
 
-vector<string> Graph::ReconstructPath(priority_queue<pair<string, string>> cameFrom, string current)
+vector<string> Graph::ReconstructPath(priority_queue<pair<string, string>> cameFrom)
 {
 	vector<string> totalPath = {};
 	while (!cameFrom.empty()) {
@@ -77,6 +148,14 @@ int TotalCostForTravel(map<string, int> costSoFar) {
 	int total = 0;
 	for (auto cost : costSoFar) {
 		total += cost.second;
+	}
+	return total;
+}
+
+int TotalCostForTravel(vector<int> costSoFar) {
+	int total = 0;
+	for (auto cost : costSoFar) {
+		total += cost;
 	}
 	return total;
 }

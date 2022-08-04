@@ -28,17 +28,35 @@ int main()
     edges.insert(edges.end(), { Edge("b", "c", 1),
         Edge("a", "d", 7),
         Edge("c", "d", 1) });
-    Graph graph = Graph(edges);
-    auto adjacentList = graph.GetAdjacentList();
+    std::shared_ptr<Graph> sharedPointergraph(new Graph(edges));
+    auto adjacentList = sharedPointergraph->GetAdjacentList();
     Node startNode = { "a" };
     Node endNode = { "d" };
-    graph.AStar(startNode, endNode);
-    vector<string> traversePath = graph.GetTraversePath();
+    sharedPointergraph->AStar(startNode, endNode);
+    vector<string> traversePath = sharedPointergraph->GetTraversePath();
     string path = accumulate(begin(traversePath), end(traversePath), string(),
         [](string lhs, const string& rhs) { return lhs.empty() ? rhs : rhs + " => " + lhs; }
     );
     cout << path << endl;
-    int cost = graph.GetTraverseCost();
+    int cost = sharedPointergraph->GetTraverseCost();
+    cout << "Total Cost of Traval is: " << cost << endl;
+   /* sharedPointergraph->SetTraverseCost(0);*/
+    sharedPointergraph->BreathFirstTraversal(startNode);
+    traversePath = sharedPointergraph->GetTraversePath();
+    path = accumulate(begin(traversePath), end(traversePath), string(),
+        [](string lhs, const string& rhs) { return lhs.empty() ? rhs : rhs + " => " + lhs; }
+    );
+    cout << path << endl;
+    cost = sharedPointergraph->GetTraverseCost();
+    cout << "Total Cost of Traval is: " << cost << endl;
+
+    sharedPointergraph->BreathFirstTraversal(startNode,endNode);
+    traversePath = sharedPointergraph->GetTraversePath();
+   path = accumulate(begin(traversePath), end(traversePath), string(),
+        [](string lhs, const string& rhs) { return lhs.empty() ? rhs : rhs + " => " + lhs; }
+    );
+    cout << path << endl;
+    cost = sharedPointergraph->GetTraverseCost();
     cout << "Total Cost of Traval is: " << cost << endl;
 }
 
