@@ -20,8 +20,14 @@ public:
 	void SetTraversePath(vector<string> reconstruct) {
 		traversePath = reconstruct;
 	}
+	void SetTraverseCost(int costSoFar) {
+		traversePathCost = costSoFar;
+	}
 	vector<string> GetTraversePath() {
 		return traversePath;
+	}
+	int GetTraverseCost() {
+		return traversePathCost;
 	}
 	map<string, vector<Node>> GetAdjacentList() {
 		return AdjacentList;
@@ -32,7 +38,9 @@ public:
 	void AStar(Node startNode, Node goalNode);
 	vector<string> ReconstructPath(map<string, Coordinates> cameFrom, string current);
 	vector<string> ReconstructPath(priority_queue<pair<string, string>> cameFrom, string current);
+	/*int TotalCostForTravel(map<string, int> costSoFar);*/
 private:
 	map<string, vector<Node>> AdjacentList;
 	vector<string> traversePath;
+	int traversePathCost = 0;
 };

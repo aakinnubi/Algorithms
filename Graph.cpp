@@ -1,6 +1,6 @@
 #include "Graph.h"
 #include <queue>
-
+int TotalCostForTravel(map<string, int> costSoFar);
 string Graph::DepthFirstTraversal()
 {
 	//
@@ -24,6 +24,8 @@ void Graph::AStar(Node startNode, Node goalNode)
 		if (current.first == goal) {
 			auto path = this->ReconstructPath(cameFrom, current.first);
 			Graph::SetTraversePath(path);
+			int totalCost = TotalCostForTravel(costSoFar);
+			Graph::SetTraverseCost(totalCost);
 			break;
 		}
 		vector<Node> neighbours = graph[current.first];
@@ -68,4 +70,13 @@ vector<string> Graph::ReconstructPath(priority_queue<pair<string, string>> cameF
 		cameFrom.pop();
 	}
 	return totalPath;
+}
+
+
+int TotalCostForTravel(map<string, int> costSoFar) {
+	int total = 0;
+	for (auto cost : costSoFar) {
+		total += cost.second;
+	}
+	return total;
 }

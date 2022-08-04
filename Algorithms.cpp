@@ -38,6 +38,8 @@ int main()
         [](string lhs, const string& rhs) { return lhs.empty() ? rhs : rhs + " => " + lhs; }
     );
     cout << path << endl;
+    int cost = graph.GetTraverseCost();
+    cout << "Total Cost of Traval is: " << cost << endl;
 }
 
 int* ChallengeOne(int InputArray[]) {
